@@ -1,0 +1,51 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String   // Hashed password
+  name      String?
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  rules     Rule[]   // Rules created by this user (if Admin/Pandit)
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Rule {
+  id          String      @id @default(cuid())
+  name        String
+  description String      // The astrological interpretation
+  logic       String      @default("AND") // "AND" = all conditions must match, "OR" = any condition
+  authorId    String
+  author      User        @relation(fields: [authorId], references: [id])
+  conditions  Condition[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model Condition {
+  id        String   @id @default(cuid())
+  ruleId    String
+  rule      Rule     @relation(fields: [ruleId], references: [id], onDelete: Cascade)
+  entity    String   // e.g. "Jupiter", "LordOf1st", "Moon"
+  operator  String   // e.g. "IN_HOUSE", "CONJUNCT", "ASPECTS"
+  value     String   // e.g. "4", "Mars", "Saturn"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
