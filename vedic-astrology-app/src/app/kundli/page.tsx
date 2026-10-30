@@ -130,10 +130,13 @@ export default function KundliPage() {
   };
 
   useEffect(() => {
-    if (status === 'unauthenticated') {
+    if ((session as any)?.error === 'ConcurrentSessionRevoked') {
+      alert("Notice / सूचना: Your account was signed into from another device. You have been logged out to protect student licenses.");
+      window.location.href = '/';
+    } else if (status === 'unauthenticated') {
       window.location.href = '/';
     }
-  }, [status]);
+  }, [status, session]);
 
   if (status === 'loading') {
     return (

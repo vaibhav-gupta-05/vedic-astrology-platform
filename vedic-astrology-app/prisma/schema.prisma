@@ -15,11 +15,12 @@ model User {
   email     String   @unique
   password  String   // Hashed password
   name      String?
-  role      Role     @default(USER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  role            Role     @default(USER)
+  activeSessionId String?  // Unique identifier for the latest active login session
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
-  rules     Rule[]   // Rules created by this user (if Admin/Pandit)
+  rules           Rule[]   // Rules created by this user (if Admin/Pandit)
 }
 
 enum Role {
