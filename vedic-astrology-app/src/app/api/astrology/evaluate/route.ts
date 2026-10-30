@@ -25,8 +25,9 @@ export async function POST(req: Request) {
       }))
     }));
 
-    // 3. Call the Python FastAPI Backend
-    const response = await fetch('http://127.0.0.1:8000/api/evaluate', {
+    // 3. Call the Python FastAPI Backend (configurable for Vercel -> Render production deployment)
+    const backendBaseUrl = process.env.ASTRO_CORE_API_URL || 'http://127.0.0.1:8000';
+    const response = await fetch(`${backendBaseUrl}/api/evaluate`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

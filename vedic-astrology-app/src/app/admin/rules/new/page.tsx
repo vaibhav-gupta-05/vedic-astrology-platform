@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import RuleConditionRow from '@/components/RuleConditionRow';
 
 export default function NewRulePage() {
   const router = useRouter();
@@ -43,22 +44,22 @@ export default function NewRulePage() {
   };
 
   return (
-    <div className="fade-in" style={{ maxWidth: '800px' }}>
+    <div className="fade-in" style={{ maxWidth: '760px' }}>
       {/* Header */}
-      <div style={{ marginBottom: '2rem' }}>
-        <h1 style={{ marginBottom: '0.25rem', fontSize: '1.8rem' }}>
-          <span style={{ marginRight: '0.5rem', opacity: 0.5 }}>✦</span>
+      <div style={{ marginBottom: '1.75rem' }}>
+        <h1 style={{ marginBottom: '0.2rem', fontSize: '1.6rem' }}>
+          <span style={{ marginRight: '0.4rem', opacity: 0.5 }}>✦</span>
           Construct Planetary Rule
         </h1>
-        <p className="text-muted" style={{ margin: 0, fontSize: '0.9rem' }}>Define the conditions for a new Yoga or Dosha</p>
+        <p className="text-muted" style={{ margin: 0, fontSize: '0.88rem' }}>Define the conditions for a new Yoga or Dosha</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="glass-panel-static" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+      <form onSubmit={handleSubmit} className="glass-panel-static" style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
 
         {/* Section 1: Identity */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '-0.5rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '-0.4rem' }}>
           <span className="badge badge-gold">Step 1</span>
-          <span className="text-muted" style={{ fontSize: '0.85rem' }}>Identity</span>
+          <span className="text-muted" style={{ fontSize: '0.82rem' }}>Identity</span>
         </div>
 
         <div>
@@ -85,83 +86,46 @@ export default function NewRulePage() {
           />
         </div>
 
-        <div style={{ height: '1px', background: 'var(--border-color)', margin: '0.5rem 0' }} />
+        <div style={{ height: '1px', background: 'var(--border-color)', margin: '0.25rem 0' }} />
 
         {/* Section 2: Conditions */}
         <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
               <span className="badge badge-purple">Step 2</span>
-              <span className="text-muted" style={{ fontSize: '0.85rem' }}>Conditions</span>
+              <span className="text-muted" style={{ fontSize: '0.82rem' }}>Conditions</span>
             </div>
             <select
               className="input-field"
               value={logic}
               onChange={e => setLogic(e.target.value)}
-              style={{ width: 'auto', padding: '0.4rem 2rem 0.4rem 0.75rem', fontSize: '0.85rem' }}
+              style={{ width: 'auto', padding: '0.35rem 2rem 0.35rem 0.7rem', fontSize: '0.82rem' }}
             >
               <option value="AND">Match ALL (AND)</option>
               <option value="OR">Match ANY (OR)</option>
             </select>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
             {conditions.map((cond, i) => (
-              <div key={i} className="condition-row">
-                <select
-                  className="input-field"
-                  value={cond.entity}
-                  onChange={e => updateCondition(i, 'entity', e.target.value)}
-                  style={{ flex: 1 }}
-                >
-                  <option value="Sun">Sun / Surya (सूर्य)</option>
-                  <option value="Moon">Moon / Chandra (चंद्र)</option>
-                  <option value="Mars">Mars / Mangal (मंगल)</option>
-                  <option value="Mercury">Mercury / Budh (बुध)</option>
-                  <option value="Jupiter">Jupiter / Guru (गुरु)</option>
-                  <option value="Venus">Venus / Shukra (शुक्र)</option>
-                  <option value="Saturn">Saturn / Shani (शनि)</option>
-                  <option value="Rahu">Rahu (राहु)</option>
-                  <option value="Ketu">Ketu (केतु)</option>
-                </select>
-
-                <select
-                  className="input-field"
-                  value={cond.operator}
-                  onChange={e => updateCondition(i, 'operator', e.target.value)}
-                  style={{ flex: 1 }}
-                >
-                  <option value="IN_HOUSE">In House / भाव में</option>
-                  <option value="IN_SIGN">In Sign / राशि में</option>
-                  <option value="CONJUNCT">Conjunct / युति</option>
-                  <option value="ASPECTS">Aspects / दृष्टि</option>
-                  <option value="EXALTED">Exalted / उच्च</option>
-                  <option value="DEBILITATED">Debilitated / नीच</option>
-                </select>
-
-                <input
-                  type="text"
-                  className="input-field"
-                  value={cond.value}
-                  onChange={e => updateCondition(i, 'value', e.target.value)}
-                  placeholder="Value..."
-                  style={{ flex: 1 }}
-                  title="House number (1-12), KENDRA, TRIKONA, or Planet/Sign name"
-                />
-
-                <button type="button" onClick={() => removeCondition(i)} className="btn-danger" style={{ flexShrink: 0, padding: '0.6rem 0.8rem' }}>
-                  ✕
-                </button>
-              </div>
+              <RuleConditionRow
+                key={i}
+                index={i}
+                entity={cond.entity}
+                operator={cond.operator}
+                value={cond.value}
+                onChange={updateCondition}
+                onRemove={removeCondition}
+              />
             ))}
           </div>
 
-          <button type="button" onClick={addCondition} className="btn-outline" style={{ marginTop: '0.75rem', width: '100%', borderStyle: 'dashed' }}>
+          <button type="button" onClick={addCondition} className="btn-outline" style={{ marginTop: '0.6rem', width: '100%', borderStyle: 'dashed' }}>
             + Add Condition
           </button>
         </div>
 
-        <button type="submit" className="btn-primary" style={{ marginTop: '1rem', padding: '1rem' }}>
+        <button type="submit" className="btn-primary" style={{ marginTop: '0.75rem', padding: '0.9rem' }}>
           Save Combination
         </button>
       </form>

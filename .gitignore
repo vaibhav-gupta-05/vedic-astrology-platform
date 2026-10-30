@@ -48,3 +48,9 @@ Thumbs.db
 
 # ── Nested git repos (sub-repos) ────────────────────────────────────
 vedic-astrology-app/.git/
+
+# ── Local IDE & Scratch Artifacts ──────────────────────────────────
+.agents/
+skills-lock.json
+*.log
+

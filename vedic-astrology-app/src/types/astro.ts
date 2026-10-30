@@ -25,8 +25,23 @@ export interface KundaliChart {
 // Represents the criteria for a rule
 export interface RuleCondition {
   entity: string; // e.g., 'Jupiter', 'Moon', 'LordOf(1)'
-  operator: 'IN_HOUSE' | 'IN_SIGN' | 'CONJUNCT' | 'ASPECTS' | 'EXALTED' | 'DEBILITATED';
-  value: string; // e.g., '4', 'Cancer', 'Moon', 'Saturn'
+  operator: 
+    | 'IN_HOUSE' 
+    | 'IN_SIGN' 
+    | 'CONJUNCT' 
+    | 'ASPECTS' 
+    | 'EXALTED' 
+    | 'DEBILITATED'
+    | 'IN_NAKSHATRA'
+    | 'NAKSHATRA_LORD_IS'
+    | 'BAV_SCORE_GTE'
+    | 'BAV_SCORE_LTE'
+    | 'SAV_SCORE_GTE'
+    | 'IS_ATMAKARAKA'
+    | 'IS_KARAKA'
+    | 'KARKAMSHA_IN_SIGN'
+    | (string & {});
+  value: string; // e.g., '4', 'Cancer', 'Moon', 'Saturn', 'Rohini', 'AK'
 }
 
 export interface AstroRule {
