@@ -47,6 +47,9 @@ export async function POST(req: Request) {
 export async function GET() {
   try {
     const rules = await prisma.rule.findMany({
+      orderBy: {
+        updatedAt: 'desc'
+      },
       include: {
         conditions: true
       }
